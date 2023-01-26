@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { MdDownloadForOffline } from 'react-icons/md';
 import { AiTwotoneDelete } from 'react-icons/ai';
@@ -14,7 +14,7 @@ const Pin = ({ pin: { postedBy, image, _id, destination, save } }) => {
 
   const user = fetchUser();
 
-  const alreadySaved = !!(save?.filter((item) => item.postedBy._id === user?.googleId))?.length;
+  const alreadySaved = !!(save?.filter((item) => item.postedBy?._id === user?.googleId))?.length;
   
   const savePin = (id) => {
     if(!alreadySaved) {
@@ -96,7 +96,7 @@ const Pin = ({ pin: { postedBy, image, _id, destination, save } }) => {
                   {destination.length > 15 ? `${destination.slice(0, 15)}...` : destination}
                 </a>
               )}
-              {postedBy?._id === user?.googleId && (
+              {postedBy?._id === user?.sub && (
                 <button
                   type="button"
                   onClick={(e) => {

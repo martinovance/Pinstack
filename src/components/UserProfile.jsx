@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { GoogleLogout } from 'react-google-login';
+import { googleLogout } from "@react-oauth/google";
 import { AiOutlineLogout } from 'react-icons/ai';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -27,12 +27,13 @@ const UserProfile = () => {
 
 		client.fetch(query)
 			.then((data) => {
+				console.log(data[0]);
 				setUser(data[0]);
 			})
 	}, [userId]);
 
 	useEffect(() => {
-		if (text === 'created') {
+		if (text === 'Created') {
 			const createdPinsQuery = userCreatedPinsQuery(userId);
 
 			client.fetch(createdPinsQuery)
@@ -49,7 +50,8 @@ const UserProfile = () => {
 		}
 	}, [text, userId])
 
-	const logout = () => {
+	const handleLogout = () => {
+		googleLogout();
 		localStorage.clear();
 
 		navigate('/login');
@@ -81,22 +83,14 @@ const UserProfile = () => {
 						{user?.userName}
 					</h1>
 					<div className="absolute top-0 z-1 right-0 p-2">
-						{userId === User?.googleId && (
-							<GoogleLogout
-								clientId={`${process.env.REACT_APP_GOOGLE_API_TOKEN}`}
-								render={(renderProps) => (
-									<button
-										type="button"
-										className="bg-white p-2 rounded-full cursor-pointer outline-none shadow-md"
-										onClick={renderProps.onClick}
-										disabled={renderProps.disabled}
-									>
-										<AiOutlineLogout color="red" fontSize={21} />
-									</button>
-								)}
-								onLogoutSuccess={logout}
-								cookiePolicy="single_host_origin"
-							/>
+					 	{userId === User?.sub && (
+							<button
+								type="button"
+								className="bg-white p-2 rounded-full cursor-pointer outline-none shadow-md"
+								onClick={handleLogout}
+							>
+								<AiOutlineLogout color="red" fontSize={21} />
+							</button>
 						)}
 					</div>
 				</div>
@@ -122,17 +116,14 @@ const UserProfile = () => {
 						Saved
 					</button>
 				</div>
+				
+				{pins?.length !== 0 && <MasonryLayout pins={pins} />}
 
-				<div className="px-2">
-					<MasonryLayout pins={pins} />
-				</div>
-
-				{pins?.length === 0 && (
+        {pins?.length === 0 && (
 					<div className="flex justify-center font-bold items-center w-full text-1xl mt-2">
 						No Pins Found!
 					</div>
-				)}
-
+        )}
 			</div>
 		</div>
 	)

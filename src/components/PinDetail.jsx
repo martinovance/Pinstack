@@ -9,8 +9,8 @@ import { pinDetailMorePinQuery, pinDetailQuery } from '../utils/data';
 import Spinner from './Spinner';
 
 const PinDetail = ({ user }) => {
-	const [pins, setPins] = useState(null);
-	const [pinDetail, setPinDetail] = useState(null);
+	const [pins, setPins] = useState();
+	const [pinDetail, setPinDetail] = useState();
 	const [comment, setComment] = useState('');
 	const [addingComment, setAddingComment] = useState(false);
 
@@ -43,15 +43,15 @@ const PinDetail = ({ user }) => {
 	const fetchPinDetails = () => {
 		const query = pinDetailQuery(pinId);
 
-		if (query) {
-			client.fetch(query)
+		if(query) {
+			client.fetch(`${query}`)
 				.then((data) => {
 					setPinDetail(data[0]);
 
 					if(data[0]) {
-						const query = pinDetailMorePinQuery(data[0]);
+						const query1 = pinDetailMorePinQuery(data[0]);
 
-						client.fetch(query)
+						client.fetch(query1)
 							.then((res) => setPins(res));
 					}
 				})
@@ -146,16 +146,13 @@ const PinDetail = ({ user }) => {
 					</div>
 				</div>
 			</div>
-			{pins?.length > 0 ? (
-				<>
-					<h2 className="text-center font-bold mt-8 mb-4">
-						More like this!
-					</h2>
-					<MasonryLayout pins={pins} />
-				</>
-			) : (
-				<Spinner message="Loading more pins..." />
+			{pins?.length !== 0 && <MasonryLayout pins={pins} />}
+			{pins?.length === 0 && (
+				<div className="flex justify-center font-bold items-center w-full text-1xl mt-2">
+					No Pins Found!
+				</div>
 			)}
+
 		</>
 	)
 }

@@ -1,9 +1,11 @@
 import React from 'react';
-import { GoogleLogin } from 'react-google-login'
+// import { GoogleLogin } from 'react-google-login'
+import { GoogleLogin } from "@react-oauth/google";
 import { useNavigate } from 'react-router-dom'
 import { FcGoogle } from 'react-icons/fc';
 import shareVideo from '../assets/share.mp4';
 import logo from '../assets/logowhite.png';
+import jwt_decode from "jwt-decode";
 
 import { client } from '../client';
 
@@ -11,24 +13,45 @@ const Login = () => {
 	const navigate = useNavigate();
 
 	const responseGoogle = (response) => {
-		localStorage.setItem('user', JSON.stringify(response.profileObj));
+		// localStorage.setItem('user', JSON.stringify(response.profileObj));
 
-		if (response.profileObj) {
-			const { name, googleId, imageUrl } = response.profileObj;
+		// if (response.profileObj) {
+		// 	const { name, googleId, imageUrl } = response.profileObj;
 
-			const doc = {
-				_id: googleId,
-				_type: 'user',
-				userName: name,
-				image: imageUrl,
-			}
+		// 	const doc = {
+		// 		_id: googleId,
+		// 		_type: 'user',
+		// 		userName: name,
+		// 		image: imageUrl,
+		// 	}
 
-			client.createIfNotExists(doc)
-				.then(() => {
-					navigate('/', { replace: true });
-				});
-		}
-	};
+		// 	client.createIfNotExists(doc)
+		// 		.then(() => {
+		// 			navigate('/', { replace: true });
+		// 		});
+		// }
+		console.log(response);
+    createOrGetUser(response).then((decode) => {
+      const { name, picture, sub } = decode;
+      localStorage.setItem("user", JSON.stringify(decode));
+      const doc = {
+        _id: sub,
+        _type: "user",
+        userName: name,
+        image: picture,
+      };
+      client.createIfNotExists(doc).then(() => {
+        navigate("/", { replace: true });
+      });
+    });
+  };
+
+  const createOrGetUser = async (response) => {
+    const decode = jwt_decode(response.credential);
+
+    return decode;
+  };
+
 
 	return (
 		<div className="flex justify-start items-center flex-col h-screen">
@@ -49,7 +72,7 @@ const Login = () => {
 
 					<div className="shadow-2xl">
 						<GoogleLogin
-							clientId={`${process.env.REACT_APP_GOOGLE_API_TOKEN}`}
+							// clientId={`${process.env.REACT_APP_GOOGLE_API_TOKEN}`}
 							render={(renderProps) => (
 								<button
 									type="button"
@@ -61,7 +84,8 @@ const Login = () => {
 								</button>
 							)}
 							onSuccess={responseGoogle}
-							onFailure={responseGoogle}
+							// onFailure={responseGoogle}
+							onError={responseGoogle}
 							cookiePolicy="single_host_origin"
 						/>
 					</div>

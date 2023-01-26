@@ -19,7 +19,7 @@ const Home = () => {
 	const userInfo = fetchUser();
 
 	useEffect(() => {
-		const query = userQuery(userInfo?.googleId);
+		const query = userQuery(userInfo?.sub);
 
 		client.fetch(query)
 			.then((data) => {
@@ -45,7 +45,7 @@ const Home = () => {
 					<Link to={`user-profile/${user?._id}`}>
 						<img src={user?.image} alt="logo" className="w-28" />
 					</Link>
-				</div>	
+				</div>
 				{toggleSidebar && (
 					<div className="fixed w-4/5 bg-white h-screen overflow-y-auto shadow-md z-10 animate-slide-in">
 						<div className="absolute w-full flex justify-end items-center p-2">
