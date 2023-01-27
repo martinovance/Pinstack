@@ -146,7 +146,16 @@ const PinDetail = ({ user }) => {
 					</div>
 				</div>
 			</div>
-			{pins?.length !== 0 && <MasonryLayout pins={pins} />}
+			{pins?.length !== 0 && (
+				<>
+				<h2 className="text-center font-bold  text-2x mt-8 mb-4">
+					More like this!
+				</h2>
+				<div className="px-2">
+					<MasonryLayout pins={pins} />
+				</div>
+				</>
+			)}
 			{pins?.length === 0 && (
 				<div className="flex justify-center font-bold items-center w-full text-1xl mt-2">
 					No Pins Found!

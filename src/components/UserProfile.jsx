@@ -74,7 +74,7 @@ const UserProfile = () => {
 							alt="banner-pic"
 						/>
 						<img
-							className="rounded-full w-20 h-20 mt-10 shadow-xl object-cover"
+							className="rounded-full w-20 h-20 -mt-10 shadow-xl object-cover"
 							src={user?.image}
 							alt="user-pic"
 						/>
@@ -117,13 +117,16 @@ const UserProfile = () => {
 					</button>
 				</div>
 				
-				{pins?.length !== 0 && <MasonryLayout pins={pins} />}
-
-        {pins?.length === 0 && (
+				{pins?.length ? (
+					<div className="px-2">
+						<MasonryLayout pins={pins} />
+					</div>
+				) : (
 					<div className="flex justify-center font-bold items-center w-full text-1xl mt-2">
 						No Pins Found!
 					</div>
-        )}
+				)}
+
 			</div>
 		</div>
 	)
