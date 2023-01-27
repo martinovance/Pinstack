@@ -3,7 +3,8 @@ import { NavLink, Link } from 'react-router-dom';
 import { RiHomeFill } from 'react-icons/ri';
 import { IoIosArrowForward } from 'react-icons/io';
 
-import logo from '../assets/logo.png';
+// import logo from '../assets/logo.png';
+import favicon from "../assets/favicon.png";
 
 import { categories } from '../utils/data';
 
@@ -24,7 +25,8 @@ const Sidebar = ({ user, closeToggle }) => {
 					className="flex px-5 gap-2 my-6 pt-1 w-190 items-center"
 					onClick={handleCloseSidebar}
 				>
-					<img src={logo} alt="logo" className="w-full" />
+					<img src={favicon} alt="logo" className="w-10" />
+					<h1 className="text-red-300 text-3xl">PinStack</h1>
 				</Link>
 				<div className="flex flex-col gap-5">
 					<NavLink

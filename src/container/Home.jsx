@@ -6,7 +6,8 @@ import { Link, Route, Routes } from 'react-router-dom';
 import { Sidebar, UserProfile } from '../components';
 import Pins from './Pins';
 import { client } from '../client';
-import logo from '../assets/logo.png';
+// import logo from '../assets/logo.png';
+import favicon from '../assets/favicon.png'
 
 import { userQuery } from '../utils/data';
 import { fetchUser } from "../utils/fetchUser"
@@ -39,11 +40,12 @@ const Home = () => {
 			<div className="flex md:hidden flex-row">
 				<div className="p-2 w-full flex flex-row justify-between items-center shadow-md">
 					<HiMenu fontSize={40} className="cursor-pointer" onClick={() => setToggleSidebar(true)} />
-					<Link to="/">
-						<img src={logo} alt="logo" className="w-28" />
+					<Link to="/" className="flex flex-row items-center">
+						<img src={favicon} alt="logo" className="w-6 h-6" />
+						<h1 className="text-red-200 text-2xl ml-1">PinStack</h1>
 					</Link>
 					<Link to={`user-profile/${user?._id}`}>
-						<img src={user?.image} alt="logo" className="w-28" />
+						<img src={user?.image} alt="logo" className="w-10" />
 					</Link>
 				</div>
 				{toggleSidebar && (
