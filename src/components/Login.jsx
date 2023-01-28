@@ -51,7 +51,7 @@ const Login = () => {
 				<div className="absolute flex flex-col justify-center items-center top-0 right-0 left-0 bottom-0 bg-blackOverlay">
 					<div className="p-2 flex flex-row items-center">
 						<img src={favicon} alt="logo" className="w-10" />
-						<h1 className="text-white text-3xl ml-1">PinStack</h1>
+						<h1 className="text-white text-3xl ml-1">Pin<span className="text-red-300">Stack</span></h1>
 					</div>
 
 					<div className="shadow-2xl">
